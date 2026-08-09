@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, readdir, realpath, rm, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { tmpdir } from "node:os";
 import { dirname, join, relative } from "node:path";
@@ -31,7 +31,10 @@ test("Windows skill installer replaces safely and verifies every file", {
     assert.equal(replacement.hashesVerified, true);
     assert.ok(replacement.backup);
     assert.notEqual(dirname(replacement.backup), dirname(destination));
-    assert.equal(replacement.backupDirectory, join(temporary, "skill-backups"));
+    assert.equal(
+      (await realpath(replacement.backupDirectory)).toLowerCase(),
+      (await realpath(join(temporary, "skill-backups"))).toLowerCase(),
+    );
     assert.equal(await readFile(join(replacement.backup, "old-marker.txt"), "utf8"), "previous installation");
     assert.deepEqual(await manifest(destination), await manifest(source));
   } finally {
