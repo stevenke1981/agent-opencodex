@@ -1,0 +1,19 @@
+acceptance:
+  change_id: CHANGE-002
+  build_or_launch: PASS
+  requested_user_scenario: PASS
+  affected_regression: PASS
+  critical_flows: PASS
+  visible_result: PASS
+  critical_errors: NONE
+  evidence:
+    - Clean and replacement installs passed against isolated temporary destinations.
+    - Invalid-source failure preserved the existing destination unchanged.
+    - The real user-level Codex skill was replaced through staged copy and every one of four file SHA-256 digests matched.
+    - A timestamped rollback backup was created under the Codex skill-backups directory.
+    - The earlier adjacent backup was moved out of the skill discovery root.
+    - codex debug prompt-input discovered exactly one agent-opencodex skill.
+    - npm test passed 52 tests.
+    - npm run accept passed 16 checks and all evidence manifest hashes matched.
+    - npm run pack:check included scripts/install-skill.ps1.
+  status: PASS

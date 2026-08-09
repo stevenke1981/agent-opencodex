@@ -1,0 +1,23 @@
+change:
+  id: CHANGE-002
+  type: Feature
+  title: Native Windows Codex skill installer with rollback verification
+  evidence: The prior Codex installation required a manual directory copy because only a Unix install-skill.sh existed.
+  impact:
+    modules:
+      - scripts/install-skill.ps1
+      - tests/install-skill.test.mjs
+      - README.md
+      - README.zh-TW.md
+      - CHANGELOG.md
+    compatibility: Additive; existing CLI, skill, configuration, and Unix scripts are unchanged.
+    risk: LOW
+    rollback: Restore the timestamped backup created outside the Codex skill discovery root before replacement.
+  acceptance:
+    - A clean temporary destination installs the complete relative file tree.
+    - An existing destination is moved to a timestamped rollback backup before replacement.
+    - Backups and failed staging trees remain outside the Codex skill discovery root.
+    - Every installed file SHA-256 matches the source.
+    - A failed copy or verification restores the previous destination or preserves failed output for diagnosis.
+    - The real Codex skill installation succeeds and produces a verified backup.
+    - Existing tests, Acceptance suite, and package check remain green.

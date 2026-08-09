@@ -34,6 +34,14 @@ aocx version
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\install.ps1
 ```
 
+安裝或更新內附的 Codex skill，並建立時間戳回滾備份、逐檔驗證 SHA-256：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\install-skill.ps1 -Json
+```
+
+預設目的地是 `%USERPROFILE%\.codex\skills\agent-opencodex`。若既有安裝需要替換，JSON 結果會提供 `%USERPROFILE%\.codex\skill-backups` 下的 `backup` 路徑；備份位於 discovery root 外，避免出現重複 skill。舊目錄不會被原地刪除。
+
 從發行套件安裝：
 
 ```bash

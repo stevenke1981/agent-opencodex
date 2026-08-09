@@ -1,5 +1,5 @@
 next_feature:
-  title: Native Windows Codex skill installer with rollback verification
-  evidence: Windows required a manual skill copy while the repository only ships install-skill.sh.
+  title: Bring rollback and hash verification parity to install-skill.sh
+  evidence: The Unix installer still replaces its destination with rm -rf and does not verify the copied file tree.
   autonomy: recommend_only
-  reason: The requested live OpenRouter free-model scenario remains externally blocked, so automatic extension is deferred until the primary path can be accepted.
+  reason: This iteration explicitly excluded Unix installer changes, and the requested Windows vertical slice is complete.

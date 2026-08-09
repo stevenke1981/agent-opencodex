@@ -28,3 +28,8 @@ intent:
     - npm test, npm run accept, and npm run pack:check pass.
     - Codex integration is exercised without modifying the user's Codex configuration.
     - Source is committed and pushed to a public GitHub repository.
+  current_iteration:
+    goal: Provide a native Windows Codex skill installer with automatic rollback backup and complete SHA-256 verification.
+    out_of_scope:
+      - Changing Unix installer behavior.
+      - Installing to OpenCode or other client surfaces.

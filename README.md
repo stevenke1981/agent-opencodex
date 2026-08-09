@@ -38,6 +38,14 @@ On Windows systems that enforce signed PowerShell scripts, run the installer in 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\install.ps1
 ```
 
+Install or update the bundled Codex skill with a timestamped rollback backup and full SHA-256 verification:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\install-skill.ps1 -Json
+```
+
+The default destination is `%USERPROFILE%\.codex\skills\agent-opencodex`. When replacing an existing installation, the JSON result contains the `backup` path under `%USERPROFILE%\.codex\skill-backups`; keeping backups outside the discovery root prevents duplicate skills. The previous directory is never deleted in place.
+
 `doctor --probe` checks provider catalog access. Add `--inference` only when a minimal live generation is intended; it may consume provider usage:
 
 ```bash

@@ -4,6 +4,7 @@
 
 - Added an explicit `doctor --inference` end-to-end generation diagnostic so catalog access is not mistaken for usable model inference.
 - Documented a process-scoped Windows PowerShell installation path for systems that enforce signed scripts.
+- Added a native Windows Codex skill installer with staged copying, timestamped rollback backups, and complete SHA-256 verification.
 
 ## 0.1.0 — 2026-08-08
 

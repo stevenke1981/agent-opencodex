@@ -1,23 +1,23 @@
 plan:
-  objective: Deliver a securely installed, independently verifiable Agent OpenCodex release.
+  objective: Deliver a reversible and independently verifiable Windows Codex skill installer.
   tasks:
     - id: T1
-      task: Establish the baseline and reproduce installation and provider behavior.
-      output: Baseline test and live diagnostic evidence.
-      verify: Existing tests pass and observed failures are recorded.
+      task: Define destination safety, backup, rollback, and verification contracts.
+      output: CHANGE-002 and installer behavior contract.
+      verify: Existing installation and project layout are inspected.
       status: completed
     - id: T2
-      task: Add explicit end-to-end inference diagnostics and Windows install guidance.
-      output: New CLI flag, tests, and documentation.
-      verify: Focused success and failure tests pass.
+      task: Implement the native PowerShell installer and automated tests.
+      output: scripts/install-skill.ps1 plus focused tests and documentation.
+      verify: Temporary-destination install and replacement scenarios pass.
       status: completed
     - id: T3
-      task: Install and exercise aocx from Codex.
-      output: Global CLI, installed skill, generated review-only Codex fragment, and live evidence.
-      verify: Discovery, hashes, mock integration, and OpenRouter diagnostics.
+      task: Reinstall the real Codex skill with backup and hash verification.
+      output: Verified user-level Codex skill and recoverable backup.
+      verify: Relative file sets and every SHA-256 digest match.
       status: completed
     - id: T4
-      task: Run release gates and publish.
-      output: Acceptance evidence, commit, and public GitHub repository.
-      verify: All required gates pass and GitHub reports public visibility.
-      status: completed
+      task: Protect the release baseline and publish.
+      output: Full gates, updated Baseline, commit, push, and remote CI.
+      verify: Local and GitHub Actions checks pass.
+      status: in_progress
