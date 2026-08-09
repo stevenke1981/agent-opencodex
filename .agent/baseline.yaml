@@ -41,5 +41,6 @@ baseline:
     - artifacts/acceptance/junit.xml
     - artifacts/acceptance/manifest.json
     - https://github.com/stevenke1981/agent-opencodex
+    - https://github.com/stevenke1981/agent-opencodex/actions/runs/31304549401
     - C:/Users/steven/.codex/skill-backups
   status: passed

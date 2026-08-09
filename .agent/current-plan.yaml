@@ -20,4 +20,4 @@ plan:
       task: Protect the release baseline and publish.
       output: Full gates, updated Baseline, commit, push, and remote CI.
       verify: Local and GitHub Actions checks pass.
-      status: in_progress
+      status: completed

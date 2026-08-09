@@ -16,4 +16,5 @@ acceptance:
     - npm test passed 52 tests.
     - npm run accept passed 16 checks and all evidence manifest hashes matched.
     - npm run pack:check included scripts/install-skill.ps1.
+    - GitHub Actions passed Windows, Linux, and macOS on Node.js 20 and 22: https://github.com/stevenke1981/agent-opencodex/actions/runs/31304549401
   status: PASS
