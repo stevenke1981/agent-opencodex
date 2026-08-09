@@ -1,0 +1,5 @@
+next_feature:
+  title: Native Windows Codex skill installer with rollback verification
+  evidence: Windows required a manual skill copy while the repository only ships install-skill.sh.
+  autonomy: recommend_only
+  reason: The requested live OpenRouter free-model scenario remains externally blocked, so automatic extension is deferred until the primary path can be accepted.

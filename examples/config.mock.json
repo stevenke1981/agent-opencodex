@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "server": {
+    "host": "127.0.0.1",
+    "port": 0,
+    "requestTimeoutMs": 30000,
+    "heartbeatMs": 100,
+    "maxBodyBytes": 2000000,
+    "clientAuth": {
+      "mode": "none",
+      "tokenEnv": "AGENT_OPENCODEX_CLIENT_KEY"
+    }
+  },
+  "logging": {
+    "level": "warn",
+    "json": true,
+    "prompts": false,
+    "file": null
+  },
+  "continuation": {
+    "enabled": true,
+    "maxEntries": 32,
+    "ttlMs": 600000
+  },
+  "defaults": {
+    "provider": "mock-chat",
+    "model": "mock-model"
+  },
+  "routes": {
+    "failover-route": [
+      { "provider": "mock-fail", "model": "mock-model" },
+      { "provider": "mock-chat", "model": "mock-model" }
+    ],
+    "native-route": [
+      { "provider": "mock-responses", "model": "mock-model" }
+    ],
+    "anthropic-route": [
+      { "provider": "mock-anthropic", "model": "mock-model" }
+    ],
+    "gemini-route": [
+      { "provider": "mock-gemini", "model": "mock-model" }
+    ]
+  },
+  "providers": {
+    "mock-chat": {
+      "type": "openai-chat",
+      "baseUrl": "http://127.0.0.1:${MOCK_PORT}/v1",
+      "models": ["mock-model"],
+      "maxRetries": 0,
+      "retryStatuses": [503]
+    },
+    "mock-fail": {
+      "type": "openai-chat",
+      "baseUrl": "http://127.0.0.1:${MOCK_PORT}/v1",
+      "models": ["mock-model"],
+      "headers": { "x-mock-fail": "1" },
+      "maxRetries": 0,
+      "retryStatuses": [503]
+    },
+    "mock-responses": {
+      "type": "openai-responses",
+      "baseUrl": "http://127.0.0.1:${MOCK_PORT}/v1",
+      "models": ["mock-model"],
+      "maxRetries": 0
+    },
+    "mock-anthropic": {
+      "type": "anthropic",
+      "baseUrl": "http://127.0.0.1:${MOCK_PORT}/v1",
+      "models": ["mock-model"],
+      "anthropicVersion": "2023-06-01",
+      "maxRetries": 0
+    },
+    "mock-gemini": {
+      "type": "gemini",
+      "baseUrl": "http://127.0.0.1:${MOCK_PORT}/v1beta",
+      "models": ["mock-model"],
+      "maxRetries": 0
+    }
+  }
+}

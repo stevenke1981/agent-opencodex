@@ -1,0 +1,14 @@
+services:
+  agent-opencodex:
+    build: .
+    command: ["serve", "--config", "/app/config/docker.example.json"]
+    ports:
+      - "127.0.0.1:10101:10101"
+    environment:
+      AGENT_OPENCODEX_CLIENT_KEY: "${AGENT_OPENCODEX_CLIENT_KEY:?Set a random token of at least 16 characters}"
+      OPENROUTER_API_KEY: "${OPENROUTER_API_KEY:?Set OPENROUTER_API_KEY}"
+      OPENROUTER_SITE_URL: "${OPENROUTER_SITE_URL:-http://localhost}"
+      OPENROUTER_APP_NAME: "${OPENROUTER_APP_NAME:-Agent OpenCodex}"
+    volumes:
+      - ./config/docker.example.json:/app/config/docker.example.json:ro
+    restart: unless-stopped

@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-opencodex.invalid/config.schema.json",
+  "title": "Agent OpenCodex configuration",
+  "type": "object",
+  "required": ["version", "server", "defaults", "providers"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": { "const": 1 },
+    "server": {
+      "type": "object",
+      "required": ["host", "port"],
+      "properties": {
+        "host": { "type": "string", "minLength": 1 },
+        "port": { "type": "integer", "minimum": 0, "maximum": 65535 },
+        "requestTimeoutMs": { "type": "integer", "minimum": 1000 },
+        "heartbeatMs": { "type": "integer", "minimum": 0 },
+        "maxBodyBytes": { "type": "integer", "minimum": 1024 },
+        "clientAuth": {
+          "type": "object",
+          "required": ["mode", "tokenEnv"],
+          "properties": {
+            "mode": { "enum": ["none", "bearer"] },
+            "tokenEnv": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "logging": {
+      "type": "object",
+      "properties": {
+        "level": { "enum": ["debug", "info", "warn", "error", "silent"] },
+        "json": { "type": "boolean" },
+        "prompts": { "const": false },
+        "file": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    },
+    "continuation": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "maxEntries": { "type": "integer", "minimum": 1 },
+        "ttlMs": { "type": "integer", "minimum": 1000 }
+      },
+      "additionalProperties": false
+    },
+    "defaults": {
+      "type": "object",
+      "required": ["provider", "model"],
+      "properties": {
+        "provider": { "type": "string", "minLength": 1 },
+        "model": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "routes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": ["provider", "model"],
+          "properties": {
+            "provider": { "type": "string", "minLength": 1 },
+            "model": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "providers": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["type", "baseUrl"],
+        "properties": {
+          "type": { "enum": ["openai-chat", "openai-responses", "anthropic", "gemini"] },
+          "baseUrl": { "type": "string", "pattern": "^https?://" },
+          "apiKeyEnv": { "type": "string", "minLength": 1 },
+          "allowInsecureHttp": { "type": "boolean" },
+          "models": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "headers": { "type": "object", "additionalProperties": { "type": "string" } },
+          "modelMap": { "type": "object", "additionalProperties": { "type": "string" } },
+          "maxRetries": { "type": "integer", "minimum": 0, "maximum": 10 },
+          "retryStatuses": { "type": "array", "items": { "type": "integer", "minimum": 100, "maximum": 599 } },
+          "retryBaseMs": { "type": "integer", "minimum": 0 },
+          "retryMaxMs": { "type": "integer", "minimum": 0 },
+          "timeoutMs": { "type": "integer", "minimum": 1000 },
+          "chatPath": { "type": "string" },
+          "responsesPath": { "type": "string" },
+          "messagesPath": { "type": "string" },
+          "generatePath": { "type": "string" },
+          "modelsUrl": { "type": "string" },
+          "healthUrl": { "type": "string" },
+          "anthropicVersion": { "type": "string" },
+          "anthropicBeta": { "type": "string" },
+          "defaultMaxTokens": { "type": "integer", "minimum": 1 },
+          "maxTokensField": { "type": "string" },
+          "reasoningField": { "type": "string" },
+          "thinkingBudgets": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 } },
+          "enableThinking": { "type": "boolean" },
+          "supportsDeveloperRole": { "type": "boolean" },
+          "remoteImageSource": { "type": "boolean" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

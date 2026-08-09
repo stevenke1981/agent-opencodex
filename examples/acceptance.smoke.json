@@ -1,0 +1,343 @@
+{
+  "version": 1,
+  "name": "agent-opencodex-offline-smoke",
+  "root": "..",
+  "services": [
+    {
+      "id": "mock",
+      "command": [
+        "node",
+        "{{root}}/bin/aocx.mjs",
+        "mock",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "{{services.mock.ports.HTTP}}",
+        "--json"
+      ],
+      "ports": {
+        "HTTP": 0
+      },
+      "ready": {
+        "url": "http://127.0.0.1:{{services.mock.ports.HTTP}}/healthz",
+        "status": 200,
+        "timeoutMs": 10000
+      }
+    },
+    {
+      "id": "gateway",
+      "command": [
+        "node",
+        "{{root}}/bin/aocx.mjs",
+        "serve",
+        "--config",
+        "{{root}}/examples/config.mock.json",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "{{services.gateway.ports.HTTP}}",
+        "--json"
+      ],
+      "env": {
+        "MOCK_PORT": "{{services.mock.ports.HTTP}}"
+      },
+      "ports": {
+        "HTTP": 0
+      },
+      "ready": {
+        "url": "http://127.0.0.1:{{services.gateway.ports.HTTP}}/readyz",
+        "status": 200,
+        "bodyIncludes": "ready",
+        "timeoutMs": 10000
+      }
+    }
+  ],
+  "checks": [
+    {
+      "id": "health-contract",
+      "type": "http",
+      "url": "http://127.0.0.1:{{services.gateway.ports.HTTP}}/healthz",
+      "expect": {
+        "status": 200,
+        "bodyIncludes": [
+          "agent-opencodex",
+          "ok"
+        ]
+      }
+    },
+    {
+      "id": "model-catalog",
+      "type": "http",
+      "url": "http://127.0.0.1:{{services.gateway.ports.HTTP}}/v1/models",
+      "expect": {
+        "status": 200,
+        "bodyIncludes": [
+          "failover-route",
+          "anthropic-route",
+          "gemini-route"
+        ]
+      }
+    },
+    {
+      "id": "openai-chat-json",
+      "type": "llm",
+      "endpoint": "http://127.0.0.1:{{services.gateway.ports.HTTP}}/v1/responses",
+      "model": "mock-model",
+      "input": "hello acceptance",
+      "stream": false,
+      "expect": {
+        "status": 200,
+        "statusValue": "completed",
+        "textIncludes": "mock:hello acceptance"
+      }
+    },
+    {
+      "id": "openai-chat-sse",
+      "type": "llm",
+      "endpoint": "http://127.0.0.1:{{services.gateway.ports.HTTP}}/v1/responses",
+      "model": "mock-model",
+      "input": "stream acceptance",
+      "stream": true,
+      "expect": {
+        "status": 200,
+        "statusValue": "completed",
+        "textIncludes": "mock:stream acceptance"
+      }
+    },
+    {
+      "id": "tool-call-round-trip",
+      "type": "llm",
+      "endpoint": "http://127.0.0.1:{{services.gateway.ports.HTTP}}/v1/responses",
+      "model": "mock-model",
+      "input": "call_tool weather",
+      "stream": true,
+      "tools": [
+        {
+          "type": "function",
+          "name": "weather",
+          "description": "Get weather",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "statusValue": "completed",
+        "toolName": "weather"
+      }
+    },
+    {
+      "id": "tool-search-round-trip",
+      "type": "llm",
+      "endpoint": "http://127.0.0.1:{{services.gateway.ports.HTTP}}/v1/responses",
+      "model": "mock-model",
+      "input": "call_tool tool:tool_search",
+      "stream": false,
+      "tools": [
+        {
+          "type": "tool_search",
+          "execution": "client",
+          "description": "Search available tools",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "statusValue": "completed",
+        "outputType": "tool_search_call",
+        "toolName": "tool_search"
+      }
+    },
+    {
+      "id": "ordered-failover",
+      "type": "llm",
+      "endpoint": "http://127.0.0.1:{{services.gateway.ports.HTTP}}/v1/responses",
+      "model": "failover-route",
+      "input": "fallback acceptance",
+      "stream": false,
+      "expect": {
+        "status": 200,
+        "statusValue": "completed",
+        "textIncludes": "mock:fallback acceptance"
+      }
+    },
+    {
+      "id": "native-responses-adapter",
+      "type": "llm",
+      "endpoint": "http://127.0.0.1:{{services.gateway.ports.HTTP}}/v1/responses",
+      "model": "native-route",
+      "input": "native acceptance",
+      "stream": true,
+      "expect": {
+        "status": 200,
+        "statusValue": "completed",
+        "textIncludes": "mock:native acceptance"
+      }
+    },
+    {
+      "id": "anthropic-adapter",
+      "type": "llm",
+      "endpoint": "http://127.0.0.1:{{services.gateway.ports.HTTP}}/v1/responses",
+      "model": "anthropic-route",
+      "input": "anthropic acceptance",
+      "stream": true,
+      "expect": {
+        "status": 200,
+        "statusValue": "completed",
+        "textIncludes": "mock:anthropic acceptance"
+      }
+    },
+    {
+      "id": "gemini-adapter",
+      "type": "llm",
+      "endpoint": "http://127.0.0.1:{{services.gateway.ports.HTTP}}/v1/responses",
+      "model": "gemini-route",
+      "input": "gemini acceptance",
+      "stream": true,
+      "expect": {
+        "status": 200,
+        "statusValue": "completed",
+        "textIncludes": "mock:gemini acceptance"
+      }
+    },
+    {
+      "id": "remote-compaction-v2",
+      "type": "llm",
+      "endpoint": "http://127.0.0.1:{{services.gateway.ports.HTTP}}/v1/responses",
+      "model": "native-route",
+      "input": [
+        {
+          "type": "message",
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "acceptance checkpoint epsilon"
+            }
+          ]
+        },
+        {
+          "type": "compaction_trigger"
+        }
+      ],
+      "stream": true,
+      "expect": {
+        "status": 200,
+        "statusValue": "completed",
+        "outputType": "compaction",
+        "outputNotType": "message"
+      }
+    },
+    {
+      "id": "remote-compaction-v1",
+      "type": "http",
+      "url": "http://127.0.0.1:{{services.gateway.ports.HTTP}}/v1/responses/compact",
+      "method": "POST",
+      "json": {
+        "model": "mock-model",
+        "input": [
+          {
+            "type": "message",
+            "role": "user",
+            "content": [
+              {
+                "type": "input_text",
+                "text": "acceptance compact marker zeta"
+              }
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "status": 200,
+        "bodyIncludes": [
+          "Another language model started to solve this problem",
+          "acceptance compact marker zeta"
+        ],
+        "jsonPointer": "/output/1/type",
+        "equals": "message"
+      }
+    },
+    {
+      "id": "unit-and-e2e-contracts",
+      "type": "command",
+      "command": [
+        "node",
+        "--test",
+        "--test-reporter=spec"
+      ],
+      "timeoutMs": 30000,
+      "expect": {
+        "exitCode": 0,
+        "stdoutIncludes": [
+          "tool_search output closes the client-executed loop",
+          "compaction bridge emits exactly one compaction item",
+          "fail 0"
+        ],
+        "stderrNotIncludes": "SyntaxError"
+      }
+    },
+    {
+      "id": "mcp-stdio-dual-era",
+      "type": "command",
+      "command": [
+        "node",
+        "scripts/mcp-smoke.mjs"
+      ],
+      "timeoutMs": 20000,
+      "expect": {
+        "exitCode": 0,
+        "stdoutIncludes": [
+          "mcp-modern-discover:ok",
+          "mcp-modern-tools-list:ok",
+          "mcp-modern-verify:ok",
+          "mcp-legacy-initialize:ok"
+        ],
+        "stderrNotIncludes": "Error"
+      }
+    },
+    {
+      "id": "source-syntax",
+      "type": "command",
+      "command": [
+        "node",
+        "--check",
+        "src/server.mjs"
+      ],
+      "expect": {
+        "exitCode": 0,
+        "stderrNotIncludes": "SyntaxError"
+      }
+    },
+    {
+      "id": "agent-contract-present",
+      "type": "file",
+      "path": "AGENTS.md",
+      "exists": true,
+      "kind": "file",
+      "minBytes": 500,
+      "contains": "Acceptance"
+    }
+  ]
+}

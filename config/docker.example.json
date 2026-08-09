@@ -1,0 +1,45 @@
+{
+  "$schema": "./config.schema.json",
+  "version": 1,
+  "server": {
+    "host": "0.0.0.0",
+    "port": 10101,
+    "requestTimeoutMs": 300000,
+    "heartbeatMs": 2000,
+    "maxBodyBytes": 20000000,
+    "clientAuth": {
+      "mode": "bearer",
+      "tokenEnv": "AGENT_OPENCODEX_CLIENT_KEY"
+    }
+  },
+  "logging": {
+    "level": "info",
+    "json": true,
+    "prompts": false,
+    "file": null
+  },
+  "continuation": {
+    "enabled": true,
+    "maxEntries": 256,
+    "ttlMs": 21600000
+  },
+  "defaults": {
+    "provider": "openrouter",
+    "model": "deepseek/deepseek-v4-flash-latest"
+  },
+  "routes": {},
+  "providers": {
+    "openrouter": {
+      "type": "openai-chat",
+      "baseUrl": "https://openrouter.ai/api/v1",
+      "apiKeyEnv": "OPENROUTER_API_KEY",
+      "models": ["deepseek/deepseek-v4-flash-latest"],
+      "headers": {
+        "HTTP-Referer": "${OPENROUTER_SITE_URL:-http://localhost}",
+        "X-Title": "${OPENROUTER_APP_NAME:-Agent OpenCodex}"
+      },
+      "maxRetries": 2,
+      "retryStatuses": [408, 409, 429, 500, 502, 503, 504]
+    }
+  }
+}

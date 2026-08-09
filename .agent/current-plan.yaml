@@ -1,0 +1,23 @@
+plan:
+  objective: Deliver a securely installed, independently verifiable Agent OpenCodex release.
+  tasks:
+    - id: T1
+      task: Establish the baseline and reproduce installation and provider behavior.
+      output: Baseline test and live diagnostic evidence.
+      verify: Existing tests pass and observed failures are recorded.
+      status: completed
+    - id: T2
+      task: Add explicit end-to-end inference diagnostics and Windows install guidance.
+      output: New CLI flag, tests, and documentation.
+      verify: Focused success and failure tests pass.
+      status: completed
+    - id: T3
+      task: Install and exercise aocx from Codex.
+      output: Global CLI, installed skill, generated review-only Codex fragment, and live evidence.
+      verify: Discovery, hashes, mock integration, and OpenRouter diagnostics.
+      status: completed
+    - id: T4
+      task: Run release gates and publish.
+      output: Acceptance evidence, commit, and public GitHub repository.
+      verify: All required gates pass and GitHub reports public visibility.
+      status: in_progress

@@ -1,0 +1,12 @@
+Agent OpenCodex
+Copyright (c) 2026 Agent OpenCodex contributors
+
+This project is an independently written, reduced-scope implementation inspired by and interoperable with selected protocol concepts from:
+
+  lidge-jun/opencodex
+  https://github.com/lidge-jun/opencodex
+  inspected main tree: 57140d6f06218d604ee139e5909a1b868bf7a84b
+
+The reviewed upstream project is licensed under the MIT License. Its architecture and documented compaction contracts informed this implementation. Agent OpenCodex preserves the upstream attribution and license text in THIRD_PARTY_NOTICES.md.
+
+This package does not claim compatibility with upstream features that are explicitly removed. OpenAI, Anthropic, Google, Gemini, DeepSeek, OpenRouter, xAI, Ollama, Codex, Claude, and other names are trademarks or product names of their respective owners. This project is independent and is not endorsed by those providers.

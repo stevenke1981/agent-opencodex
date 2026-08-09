@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "server": {
+    "host": "127.0.0.1",
+    "port": 10101,
+    "clientAuth": { "mode": "none", "tokenEnv": "AGENT_OPENCODEX_CLIENT_KEY" }
+  },
+  "defaults": { "provider": "local", "model": "qwen3-coder" },
+  "providers": {
+    "local": {
+      "type": "openai-chat",
+      "baseUrl": "http://127.0.0.1:11434/v1",
+      "models": ["qwen3-coder"],
+      "maxRetries": 0
+    }
+  }
+}

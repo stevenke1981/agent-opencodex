@@ -1,0 +1,17 @@
+acceptance:
+  change_id: CHANGE-001
+  build_or_launch: PASS
+  requested_user_scenario: BLOCKED
+  affected_regression: PASS
+  critical_flows: PASS
+  visible_result: PASS
+  critical_errors: NONE
+  evidence:
+    - npm test passed 50 tests.
+    - npm run accept passed 16 checks and produced JSON, Markdown, JUnit, logs, and SHA-256 manifest evidence.
+    - npm run pack:check produced the expected dry-run package.
+    - Temporary CODEX_HOME execution reached the mock provider through Agent OpenCodex and returned CODEX_AOCX_OK.
+    - Installed skill source and destination SKILL.md hashes matched.
+    - Authenticated OpenRouter catalog probe returned HTTP 200.
+    - Explicit OpenRouter inference probe failed because no free endpoint satisfies the account data-policy guardrails.
+  status: BLOCKED

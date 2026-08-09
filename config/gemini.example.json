@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "server": {
+    "host": "127.0.0.1",
+    "port": 10101,
+    "clientAuth": { "mode": "none", "tokenEnv": "AGENT_OPENCODEX_CLIENT_KEY" }
+  },
+  "defaults": { "provider": "gemini", "model": "gemini-3-pro" },
+  "providers": {
+    "gemini": {
+      "type": "gemini",
+      "baseUrl": "https://generativelanguage.googleapis.com/v1beta",
+      "apiKeyEnv": "GEMINI_API_KEY",
+      "models": ["gemini-3-pro"]
+    }
+  }
+}

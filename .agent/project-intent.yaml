@@ -1,0 +1,30 @@
+intent:
+  goal: Install Agent OpenCodex for Codex and prove the gateway with an OpenRouter free model.
+  user_outcome: Codex can route Responses requests through a globally installed aocx gateway, with failures diagnosed before use.
+  primary_user_scenario: Install aocx and its skill, configure an OpenRouter free model by environment variable, diagnose it, start the gateway, and invoke it from Codex.
+  in_scope:
+    - Review and harden the existing CLI workflow.
+    - Install the CLI and reusable Codex skill.
+    - Verify offline contracts and a real OpenRouter free-model path.
+    - Publish the verified source to a public GitHub repository.
+  out_of_scope:
+    - Editing the user's Codex config.toml automatically.
+    - Relaxing OpenRouter account privacy settings.
+    - Paid model inference or hosted deployment.
+  constraints:
+    - API keys remain environment-only and never enter repository files or command arguments.
+    - The gateway remains bound to loopback.
+    - Public API and configuration version remain backward compatible.
+  assumptions:
+    - A temporary CODEX_HOME may be used for reversible integration verification.
+  protected_behavior:
+    - Existing Responses JSON and SSE translation.
+    - Tool namespace and tool_search round trips.
+    - Compaction v1 and v2 contracts.
+    - Modern and legacy MCP stdio contracts.
+  acceptance:
+    - Global aocx and Codex skill installation are discoverable.
+    - Explicit inference diagnostics distinguish catalog access from usable generation.
+    - npm test, npm run accept, and npm run pack:check pass.
+    - Codex integration is exercised without modifying the user's Codex configuration.
+    - Source is committed and pushed to a public GitHub repository.

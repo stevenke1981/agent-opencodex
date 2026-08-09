@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "server": {
+    "host": "127.0.0.1",
+    "port": 10101,
+    "clientAuth": { "mode": "none", "tokenEnv": "AGENT_OPENCODEX_CLIENT_KEY" }
+  },
+  "defaults": { "provider": "anthropic", "model": "claude-sonnet-4-6" },
+  "providers": {
+    "anthropic": {
+      "type": "anthropic",
+      "baseUrl": "https://api.anthropic.com/v1",
+      "apiKeyEnv": "ANTHROPIC_API_KEY",
+      "anthropicVersion": "2023-06-01",
+      "models": ["claude-sonnet-4-6"]
+    }
+  }
+}

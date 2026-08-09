@@ -1,0 +1,12 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.agent-opencodex/
+artifacts/*
+!artifacts/.gitkeep
+coverage/
+*.log
+*.pid
+.DS_Store
+Thumbs.db

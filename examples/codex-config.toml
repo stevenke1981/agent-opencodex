@@ -1,0 +1,8 @@
+model = "deepseek/deepseek-v4-flash-latest"
+model_provider = "agent_opencodex"
+
+[model_providers.agent_opencodex]
+name = "Agent OpenCodex"
+base_url = "http://127.0.0.1:10101/v1"
+wire_api = "responses"
+supports_websockets = false

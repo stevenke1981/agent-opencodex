@@ -1,0 +1,39 @@
+baseline:
+  id: BASELINE-20260809-001
+  accepted_features:
+    - OpenAI Responses JSON and SSE gateway.
+    - Provider adapters, routing, failover, continuation, tool search, and namespace preservation.
+    - Remote compaction v1 and v2.
+    - Modern and legacy MCP stdio control.
+    - Explicit end-to-end doctor inference diagnostic.
+    - Global CLI and Codex skill installation.
+  critical_user_flows:
+    - Install aocx globally and render a review-only Codex fragment.
+    - Route a Codex CLI request through Agent OpenCodex to a controlled provider.
+    - Distinguish provider catalog access from usable model inference.
+  protected_behavior:
+    - No API key persistence or prompt logging.
+    - Loopback-first server binding.
+    - Stable CLI exit codes and machine-readable output.
+  public_interfaces:
+    - GET /healthz
+    - GET /readyz
+    - GET /v1/models
+    - POST /v1/responses
+    - POST /v1/responses/compact
+    - aocx doctor --inference
+  data_compatibility:
+    - Configuration version 1 remains unchanged.
+  environment:
+    - Windows 11
+    - Node.js 24.15.0
+    - Codex CLI 0.147.0
+  known_limitations:
+    - The current OpenRouter account privacy policy rejects all tested free-model endpoints; live free generation is externally blocked.
+    - User Codex config.toml is intentionally not modified automatically.
+  evidence:
+    - artifacts/acceptance/report.json
+    - artifacts/acceptance/summary.md
+    - artifacts/acceptance/junit.xml
+    - artifacts/acceptance/manifest.json
+  status: passed

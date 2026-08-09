@@ -1,0 +1,20 @@
+change:
+  id: CHANGE-001
+  type: Feature
+  title: Explicit end-to-end inference diagnostic
+  evidence: The authenticated OpenRouter model catalog returned HTTP 200 while every current free model request failed under account data-policy guardrails.
+  impact:
+    modules:
+      - src/doctor.mjs
+      - src/cli.mjs
+      - tests/config.test.mjs
+      - README.md
+      - README.zh-TW.md
+    compatibility: Additive CLI flag; existing doctor behavior is unchanged unless explicitly requested.
+    risk: LOW
+    rollback: Remove the inference option and its documentation/tests.
+  acceptance:
+    - A compatible mock provider passes the inference diagnostic.
+    - An upstream generation failure makes doctor exit with health-failure code 1.
+    - The diagnostic does not expose prompt bodies or credentials.
+    - Existing tests and Acceptance contracts remain green.

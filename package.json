@@ -1,0 +1,62 @@
+{
+  "name": "agent-opencodex",
+  "version": "0.1.0",
+  "description": "A lean, agent-first OpenAI Responses API gateway with provider routing, tool-call translation, MCP control, and evidence-based acceptance tests.",
+  "type": "module",
+  "main": "./src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "agent-opencodex": "./bin/aocx.mjs",
+    "aocx": "./bin/aocx.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "config",
+    "examples",
+    "tests",
+    "skills",
+    "scripts",
+    "artifacts/acceptance",
+    "Dockerfile",
+    "docker-compose.yml",
+    "README.md",
+    "README.zh-TW.md",
+    "AGENTS.md",
+    "ANALYSIS.md",
+    "SECURITY.md",
+    "LICENSE",
+    "NOTICE",
+    "CHANGELOG.md",
+    ".env.example",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "scripts": {
+    "start": "node ./bin/aocx.mjs serve",
+    "test": "node --test --test-reporter=spec",
+    "test:ci": "node --test --test-reporter=tap",
+    "accept": "node ./bin/aocx.mjs verify --spec ./examples/acceptance.smoke.json --report-dir ./artifacts/acceptance",
+    "doctor": "node ./bin/aocx.mjs doctor --config ./config/config.example.json --json",
+    "pack:check": "npm pack --dry-run"
+  },
+  "engines": {
+    "node": ">=20.11"
+  },
+  "keywords": [
+    "codex",
+    "agents",
+    "llm-proxy",
+    "responses-api",
+    "openrouter",
+    "deepseek",
+    "ollama",
+    "anthropic",
+    "gemini",
+    "mcp",
+    "acceptance-testing"
+  ],
+  "license": "MIT"
+}
