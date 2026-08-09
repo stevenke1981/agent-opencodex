@@ -36,4 +36,5 @@ baseline:
     - artifacts/acceptance/summary.md
     - artifacts/acceptance/junit.xml
     - artifacts/acceptance/manifest.json
+    - https://github.com/stevenke1981/agent-opencodex
   status: passed

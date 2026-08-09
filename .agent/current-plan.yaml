@@ -20,4 +20,4 @@ plan:
       task: Run release gates and publish.
       output: Acceptance evidence, commit, and public GitHub repository.
       verify: All required gates pass and GitHub reports public visibility.
-      status: in_progress
+      status: completed

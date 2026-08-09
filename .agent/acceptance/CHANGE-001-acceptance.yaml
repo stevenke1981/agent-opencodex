@@ -14,4 +14,5 @@ acceptance:
     - Installed skill source and destination SKILL.md hashes matched.
     - Authenticated OpenRouter catalog probe returned HTTP 200.
     - Explicit OpenRouter inference probe failed because no free endpoint satisfies the account data-policy guardrails.
+    - Public repository created at https://github.com/stevenke1981/agent-opencodex and main was pushed.
   status: BLOCKED
